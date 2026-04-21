@@ -1,0 +1,18 @@
+[project]
+name = "finance-rag-hybrid"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "faiss-cpu>=1.13.2",
+    "fastapi>=0.136.0",
+    "langchain>=1.2.15",
+    "langchain-community>=0.4.1",
+    "langchain-openai>=1.1.15",
+    "pydantic>=2.13.3",
+    "python-dotenv>=1.2.2",
+    "ragas>=0.4.3",
+    "rank-bm25>=0.2.2",
+    "uvicorn[standard]>=0.44.0",
+]

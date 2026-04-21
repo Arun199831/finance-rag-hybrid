@@ -1,0 +1,22 @@
+[
+    {
+        "question": "What did the Federal Reserve decide about interest rates in December 2023?",
+        "ground_truth": "The Federal Reserve held interest rates steady at 5.25-5.50% in December 2023."
+    },
+    {
+        "question": "What was NVDA revenue in Q3 2024?",
+        "ground_truth": "NVIDIA reported revenue of $18.12 billion in Q3 2024, up 206% year over year."
+    },
+    {
+        "question": "What is a 13F filing?",
+        "ground_truth": "A 13F filing is a quarterly report filed by institutional investment managers with the SEC disclosing their equity holdings."
+    },
+    {
+        "question": "What companies showed improving profit margins in 2024?",
+        "ground_truth": "Companies in the technology sector including Microsoft and Apple showed improving profit margins in 2024."
+    },
+    {
+        "question": "What was the S&P 500 performance in 2023?",
+        "ground_truth": "The S&P 500 gained approximately 24% in 2023, recovering from the 2022 downturn."
+    }
+]
