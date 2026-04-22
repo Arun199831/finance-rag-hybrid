@@ -102,8 +102,12 @@ async def ingest(request: IngestRequest):
             source_type=request.source_type,
             vectorstore=app.state.vectorstore
         )
+
+        # reload vectorstore from disk after ingest
+        app.state.vectorstore = load_vectorstore()
         app.state.docs = list(app.state.vectorstore.docstore._dict.values())
         app.state.vectorstore_ready = True
+
         return IngestResponse(
             status="success",
             documents_added=count,
