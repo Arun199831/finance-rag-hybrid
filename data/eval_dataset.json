@@ -1,22 +1,22 @@
 [
     {
-        "question": "What did the Federal Reserve decide about interest rates in December 2023?",
-        "ground_truth": "The Federal Reserve held interest rates steady at 5.25-5.50% in December 2023."
+        "question": "What is the Federal Reserve?",
+        "ground_truth": "The Federal Reserve is the central banking system of the United States."
     },
     {
-        "question": "What was NVDA revenue in Q3 2024?",
-        "ground_truth": "NVIDIA reported revenue of $18.12 billion in Q3 2024, up 206% year over year."
+        "question": "What does the Federal Open Market Committee do?",
+        "ground_truth": "The FOMC sets monetary policy including interest rates in the United States."
     },
     {
-        "question": "What is a 13F filing?",
-        "ground_truth": "A 13F filing is a quarterly report filed by institutional investment managers with the SEC disclosing their equity holdings."
+        "question": "What is Nvidia known for?",
+        "ground_truth": "Nvidia is known for designing graphics processing units and system on chip units."
     },
     {
-        "question": "What companies showed improving profit margins in 2024?",
-        "ground_truth": "Companies in the technology sector including Microsoft and Apple showed improving profit margins in 2024."
+        "question": "What is the S&P 500?",
+        "ground_truth": "The S&P 500 is a stock market index tracking 500 large companies listed on US stock exchanges."
     },
     {
-        "question": "What was the S&P 500 performance in 2023?",
-        "ground_truth": "The S&P 500 gained approximately 24% in 2023, recovering from the 2022 downturn."
+        "question": "How do interest rates affect the economy?",
+        "ground_truth": "Interest rates influence borrowing costs, consumer spending, and investment decisions in the economy."
     }
 ]

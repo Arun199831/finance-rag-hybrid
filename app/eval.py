@@ -1,5 +1,7 @@
 import json
 import os
+import asyncio
+from functools import partial
 from datasets import Dataset
 from ragas import evaluate
 from ragas.metrics import (
@@ -37,11 +39,9 @@ async def run_eval(retriever) -> dict:
         question = sample["question"]
         ground_truth = sample["ground_truth"]
 
-        # retrieve contexts
         docs = await retriever.ainvoke(question)
         context_texts = [doc.page_content for doc in docs]
 
-        # generate answer from context
         from app.chain import build_rag_chain
         chain = build_rag_chain(retriever)
         answer = await chain.ainvoke(question)
@@ -51,7 +51,6 @@ async def run_eval(retriever) -> dict:
         contexts.append(context_texts)
         ground_truths.append(ground_truth)
 
-    # build RAGAs dataset
     dataset = Dataset.from_dict({
         "question": questions,
         "answer": answers,
@@ -59,31 +58,34 @@ async def run_eval(retriever) -> dict:
         "ground_truth": ground_truths
     })
 
-    # run evaluation
-    result = evaluate(
-        dataset=dataset,
-        metrics=[
-            faithfulness,
-            answer_relevancy,
-            context_precision,
-            context_recall,
-        ],
-        llm=ChatOpenAI(
-            model="gpt-4o-mini",
-            temperature=0,
-            openai_api_key=os.getenv("OPENAI_API_KEY")
-        ),
-        embeddings=OpenAIEmbeddings(
-            model="text-embedding-3-small",
-            openai_api_key=os.getenv("OPENAI_API_KEY")
+    loop = asyncio.get_event_loop()
+    result = await loop.run_in_executor(
+        None,
+        partial(
+            evaluate,
+            dataset=dataset,
+            metrics=[faithfulness, answer_relevancy, context_precision, context_recall],
+            llm=ChatOpenAI(
+                model="gpt-4o-mini",
+                temperature=0,
+                openai_api_key=os.getenv("OPENAI_API_KEY")
+            ),
+            embeddings=OpenAIEmbeddings(
+                model="text-embedding-3-small",
+                openai_api_key=os.getenv("OPENAI_API_KEY")
+            )
         )
     )
 
+    def avg(lst):
+        valid = [x for x in lst if x is not None]
+        return round(sum(valid) / len(valid), 4) if valid else 0.0
+
     return {
-        "faithfulness": round(float(result["faithfulness"]), 4),
-        "answer_relevancy": round(float(result["answer_relevancy"]), 4),
-        "context_precision": round(float(result["context_precision"]), 4),
-        "context_recall": round(float(result["context_recall"]), 4),
+        "faithfulness": avg(result["faithfulness"]),
+        "answer_relevancy": avg(result["answer_relevancy"]),
+        "context_precision": avg(result["context_precision"]),
+        "context_recall": avg(result["context_recall"]),
         "retriever_mode": "hybrid",
         "sample_size": len(samples)
     }
