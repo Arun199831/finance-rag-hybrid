@@ -126,11 +126,12 @@ async def eval():
         )
     try:
         retriever = get_retriever(
-            mode="hybrid",
-            vectorstore=app.state.vectorstore,
-            docs=app.state.docs
-        )
-        metrics = await run_eval(retriever)
+    mode="dense",
+    vectorstore=app.state.vectorstore,
+    docs=app.state.docs
+)
+
+        metrics = await run_eval(retriever, mode="dense")
         return EvalResponse(
             status="success",
             metrics=EvalMetrics(**metrics),

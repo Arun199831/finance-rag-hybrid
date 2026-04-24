@@ -27,7 +27,7 @@ def load_eval_dataset(path: str = "data/eval_dataset.json") -> list[dict]:
 
 # ── Run RAGAs evaluation ───────────────────────────────────────
 
-async def run_eval(retriever) -> dict:
+async def run_eval(retriever, mode: str = "hybrid") -> dict:
     samples = load_eval_dataset()
 
     questions = []
@@ -86,6 +86,6 @@ async def run_eval(retriever) -> dict:
         "answer_relevancy": avg(result["answer_relevancy"]),
         "context_precision": avg(result["context_precision"]),
         "context_recall": avg(result["context_recall"]),
-        "retriever_mode": "hybrid",
+        "retriever_mode": mode,
         "sample_size": len(samples)
     }
