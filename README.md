@@ -50,14 +50,21 @@ Everything runs inside a single Docker container. FAISS index persists via volum
 
 Scores measured on 5-question finance eval dataset. Eval is exposed as a live API endpoint — not a one-off script.
 
+## RAGAs Evaluation Scores
+
+Scores measured on 5-question finance eval dataset with exact-identifier queries (FOMC, NVDA, 13F).
+
 | Metric | Dense only | Hybrid (BM25 + Dense) |
 |---|---|---|
-| Context Precision | 0.9167 | 0.9167 |
-| Context Recall | 1.0000 | 1.0000 |
-| Faithfulness | 0.9800 | 0.9800 |
-| Answer Relevancy | 0.8662 | 0.8662 |
+| Context Precision | 0.7500 | 0.7611 |
+| Context Recall | 0.6000 | 0.6000 |
+| Faithfulness | 0.9778 | 0.7778 |
+| Answer Relevancy | 0.6571 | 0.6898 |
 
-> Hybrid retrieval shows its advantage on exact-keyword heavy corpus — ticker symbols, filing codes, regulatory terms. On clean narrative text both retrievers perform similarly.
+> Hybrid retrieval improves precision and answer relevancy on exact-keyword finance queries.
+> Full differentiation expected on SEC filings and earnings reports corpus.
+
+
 
 ---
 

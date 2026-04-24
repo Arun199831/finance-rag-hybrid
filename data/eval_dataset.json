@@ -1,22 +1,22 @@
 [
     {
-        "question": "What is the Federal Reserve?",
-        "ground_truth": "The Federal Reserve is the central banking system of the United States."
+        "question": "What is the FOMC and what does it decide?",
+        "ground_truth": "The FOMC stands for Federal Open Market Committee which sets US monetary policy and decides interest rates."
     },
     {
-        "question": "What does the Federal Open Market Committee do?",
-        "ground_truth": "The FOMC sets monetary policy including interest rates in the United States."
+        "question": "What does NVDA stand for and what does the company make?",
+        "ground_truth": "NVDA is the stock ticker symbol for Nvidia Corporation which designs graphics processing units and AI chips."
     },
     {
-        "question": "What is Nvidia known for?",
-        "ground_truth": "Nvidia is known for designing graphics processing units and system on chip units."
+        "question": "What is a 13F filing?",
+        "ground_truth": "A 13F is a quarterly report filed by institutional investment managers with the SEC disclosing their equity holdings."
     },
     {
-        "question": "What is the S&P 500?",
+        "question": "What is the S&P 500 index?",
         "ground_truth": "The S&P 500 is a stock market index tracking 500 large companies listed on US stock exchanges."
     },
     {
-        "question": "How do interest rates affect the economy?",
-        "ground_truth": "Interest rates influence borrowing costs, consumer spending, and investment decisions in the economy."
+        "question": "What does the Federal Reserve do with interest rates?",
+        "ground_truth": "The Federal Reserve sets the federal funds rate to control inflation and influence economic growth."
     }
 ]
