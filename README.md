@@ -111,6 +111,7 @@ Interactive docs at `http://localhost:8000/docs`
 | `/ingest` | POST | Add a URL or PDF to the vector store |
 | `/query` | POST | Ask a question, get answer + sources |
 | `/eval` | GET | Run RAGAs evaluation, returns live scores |
+| `/agent` | POST | LangGraph agentic RAG with quality checks |
 
 ---
 
