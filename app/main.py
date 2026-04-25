@@ -2,6 +2,8 @@ import os
 from contextlib import asynccontextmanager
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException
+from app.agent import run_agent
+from app.chain import run_query, get_llm
 
 from app.schemas import (
     QueryRequest, QueryResponse, SourceDocument,
@@ -20,6 +22,7 @@ load_dotenv()
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     print("Starting up — loading vectorstore...")
+    app.state.llm = get_llm()
     try:
         app.state.vectorstore = load_vectorstore()
         app.state.docs = list(app.state.vectorstore.docstore._dict.values())
@@ -30,6 +33,7 @@ async def lifespan(app: FastAPI):
         app.state.vectorstore_ready = False
         app.state.vectorstore = None
         app.state.docs = []
+         
 
     yield
 
@@ -91,6 +95,50 @@ async def query(request: QueryRequest):
         raise HTTPException(status_code=400, detail=str(e))
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Pipeline error: {str(e)}")
+    
+    
+@app.post("/agent", response_model=QueryResponse)
+async def agent(request: QueryRequest):
+    if not app.state.vectorstore_ready:
+        raise HTTPException(
+            status_code=503,
+            detail="Vectorstore not ready. Run /ingest first."
+        )
+    try:
+        retriever = get_retriever(
+            mode=request.retriever_mode,
+            vectorstore=app.state.vectorstore,
+            docs=app.state.docs,
+            top_k=request.top_k
+        )
+
+        result = await run_agent(
+            question=request.question,
+            retriever=retriever,
+            llm=app.state.llm
+        )
+
+        sources = [
+            SourceDocument(
+                content=doc.page_content,
+                source=doc.metadata.get("source", "unknown"),
+                relevance_score=doc.metadata.get("relevance_score", 0.0)
+            )
+            for doc in result["docs"]
+        ]
+
+        return QueryResponse(
+            question=request.question,
+            answer=result["answer"],
+            sources=sources,
+            retriever_mode=request.retriever_mode,
+            latency_ms=0.0
+        )
+
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Agent error: {str(e)}")
 
 
 @app.post("/ingest", response_model=IngestResponse)
