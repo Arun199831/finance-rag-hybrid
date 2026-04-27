@@ -67,6 +67,15 @@ Scores measured on 5-question finance eval dataset with exact-identifier queries
 
 
 ---
+## Agentic RAG — LangGraph
+
+The `/agent` endpoint uses a LangGraph state graph instead of a plain chain.
+
+retrieve → check_quality → generate → validate_answer → END
+↓
+end_empty → END (if no good docs found)
+
+Each node has one job. The graph decides the path based on what it finds — if retrieval returns poor content, it routes to a fallback instead of wasting an LLM call on empty context. After generation, a validation node checks the answer for hallucination signals.
 
 ## Stack
 
